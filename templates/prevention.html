@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prevention of XSS and SQL Injection</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="bg-light">
+    <div class="container my-5">
+
+        <h1 class="text-center mb-4">Prevention of XSS and SQL Injection</h1>
+        
+        <!-- Reflected XSS Prevention -->
+        <div class="border p-3 mb-4" style="border-color: #f39c12;">
+            <h4 class="text-center text-warning">Reflected XSS Prevention</h4>
+            <p>
+                The following Node.js code snippet is vulnerable to reflected XSS. Try to find the vulnerable part and think of a solution.
+            </p>
+            <div class="border p-3 mb-3" style="background-color: #fff3cd;">
+                <h5>Vulnerable Code</h5>
+                <pre>
+<code>
+const express = require('express');
+const app = express();
+
+app.get('/search', function(req, res) {
+    var searchTerm = req.query.q;
+    res.send('You searched for: ' + searchTerm);
+});
+
+app.listen(80);
+</code>
+                </pre>
+            </div>
+
+            <p>
+                The code is vulnerable because it directly outputs the user-provided search term without sanitization or escaping.
+            </p>
+
+            <div class="border p-3 mb-3" style="background-color: #d4edda;">
+                <h5>Fixed Code</h5>
+                <pre>
+<code>
+const express = require('express');
+const sanitizeHtml = require('sanitize-html');
+
+const app = express();
+
+app.get('/search', function(req, res) {
+    const searchTerm = req.query.q;
+    const sanitizedSearchTerm = sanitizeHtml(searchTerm);
+    res.send('You searched for: ' + sanitizedSearchTerm);
+});
+
+app.listen(80);
+</code>
+                </pre>
+            </div>
+            <p>
+                The solution is achieved by using the <code>sanitizeHtml()</code> function from the <a href="https://www.npmjs.com/package/sanitize-html" target="_blank">sanitize-html</a> library.
+            </p>
+        </div>
+
+        <!-- Stored XSS Prevention -->
+        <div class="border p-3 mb-4" style="border-color: #e74c3c;">
+            <h4 class="text-center text-danger">Stored XSS Prevention</h4>
+            <p>
+                The following Node.js code snippet demonstrates a stored XSS vulnerability. The solution involves sanitizing inputs before saving them.
+            </p>
+            <div class="border p-3 mb-3" style="background-color: #f8d7da;">
+                <h5>Vulnerable Code</h5>
+                <pre>
+<code>
+const express = require('express');
+const app = express();
+
+app.post('/comment', function(req, res) {
+    var comment = req.body.comment;
+    // Storing comment directly without sanitizing
+    saveComment(comment);
+    res.send('Comment saved: ' + comment);
+});
+
+app.listen(80);
+</code>
+                </pre>
+            </div>
+
+            <p>
+                In this case, user inputs are stored directly without any filtering or sanitization, which can lead to a stored XSS attack.
+            </p>
+
+            <div class="border p-3 mb-3" style="background-color: #d4edda;">
+                <h5>Fixed Code</h5>
+                <pre>
+<code>
+const express = require('express');
+const sanitizeHtml = require('sanitize-html');
+const app = express();
+
+app.post('/comment', function(req, res) {
+    var comment = req.body.comment;
+    // Sanitize input before storing
+    const sanitizedComment = sanitizeHtml(comment);
+    saveComment(sanitizedComment);
+    res.send('Comment saved: ' + sanitizedComment);
+});
+
+app.listen(80);
+</code>
+                </pre>
+            </div>
+            <p>
+                The solution involves sanitizing the input using <code>sanitizeHtml()</code> before storing it in the database.
+            </p>
+        </div>
+
+        <!-- SQL Injection Prevention -->
+        <div class="border p-3 mb-4" style="border-color: #3498db;">
+            <h4 class="text-center text-primary">SQL Injection Prevention</h4>
+            <p>
+                The following Node.js code snippet demonstrates an SQL Injection vulnerability. Try to find the vulnerable part and think of a solution.
+            </p>
+            <div class="border p-3 mb-3" style="background-color: #d1ecf1;">
+                <h5>Vulnerable Code</h5>
+                <pre>
+<code>
+const express = require('express');
+const mysql = require('mysql');
+const app = express();
+
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'users'
+});
+
+app.post('/login', function(req, res) {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    db.query('SELECT * FROM users WHERE username = "' + username + '" AND password = "' + password + '"', function(err, results) {
+        if (err) throw err;
+        res.send('Logged in as: ' + username);
+    });
+});
+
+app.listen(80);
+</code>
+                </pre>
+            </div>
+
+            <p>
+                The code above is vulnerable to SQL Injection as it directly concatenates user inputs into SQL queries.
+            </p>
+
+            <div class="border p-3 mb-3" style="background-color: #d4edda;">
+                <h5>Fixed Code</h5>
+                <pre>
+<code>
+const express = require('express');
+const mysql = require('mysql');
+const app = express();
+
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'users'
+});
+
+app.post('/login', function(req, res) {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    // Use prepared statements to prevent SQL injection
+    const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
+    db.query(query, [username, password], function(err, results) {
+        if (err) throw err;
+        res.send('Logged in as: ' + username);
+    });
+});
+
+app.listen(80);
+</code>
+                </pre>
+            </div>
+            <p>
+                The solution is to use prepared statements, which separate the query structure from the data, preventing malicious code injection.
+            </p>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

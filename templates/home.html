@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS and SQL-Injection Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="bg-light">
+    <div class="container">
+        <header class="my-5 text-center">
+            <h1 class="display-4">Welcome to XSS and SQL Injection Demonstrator</h1>
+            <p class="lead">This site demonstrates common web vulnerabilities such as XSS and SQL Injection.</p>
+        </header>
+
+        <div class="row mb-4">
+            <!-- Reflected XSS -->
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Reflected XSS</h5>
+                        <p class="card-text">Test for reflected Cross-Site Scripting (XSS). Malicious scripts can execute within your site if user inputs are not properly sanitized.</p>
+                        <a href="/xss-reflected" class="btn btn-warning mt-auto">Try it</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stored XSS -->
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Stored XSS</h5>
+                        <p class="card-text">This demonstrates a stored Cross-Site Scripting (XSS) vulnerability. Data inputted by users is stored on the server and executed when other users load the page.</p>
+                        <a href="/xss-stored" class="btn btn-danger mt-auto">Try it</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SQL Injection -->
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">SQL Injection</h5>
+                        <p class="card-text">Learn how SQL injection works and how to prevent it by using prepared statements and input validation.</p>
+                        <a href="/sql-injection" class="btn btn-primary mt-auto">Try it</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payloads Page Link -->
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Payloads</h5>
+                        <p class="card-text">View and copy commonly used payloads to test against vulnerable systems.</p>
+                        <a href="/payloads" class="btn btn-info mt-auto">View Payloads</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prevention Page Link -->
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Prevention</h5>
+                        <p class="card-text">Learn security practices and code snippets to prevent vulnerabilities like XSS and SQL Injection.</p>
+                        <a href="/prevention" class="btn btn-success mt-auto">Learn Prevention</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Knowledge Section -->
+        <div class="text-center my-4 p-4 bg-dark text-white">
+            <h4>Know More About Cyber Attacks</h4>
+            <p>Stay informed about common web vulnerabilities and ways to protect against them.</p>
+            <a href="https://owasp.org/www-project-top-ten/" target="_blank" class="btn btn-light">
+                Learn More
+            </a>
+        </div>
+
+        <footer class="text-center my-4">
+            <p>&copy; 2024 xss&sql demonstrator | created by Arvindraj Ramesh <a href="https://www.owasp.org/index.php/SQL_Injection" target="_blank">Learn More</a></p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

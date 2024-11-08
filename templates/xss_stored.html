@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stored XSS Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light">
+    <div class="container">
+        <header class="my-4 text-center">
+            <h1>Stored XSS Vulnerability</h1>
+            <p class="lead">Enter a comment, and it will be stored and displayed back to all users (vulnerable to XSS).</p>
+        </header>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <form action="/xss-stored" method="POST">
+                    <div class="form-group">
+                        <label for="content">Leave a comment:</label>
+                        <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        {% if comments %}
+        <div class="alert alert-info mt-4">
+            <h5>Stored Comments:</h5>
+                {% for comment in comments %}
+                <p>{{ comment[0] | safe }}</p>
+                {% endfor %}
+        </div>
+        {% endif %}
+
+        <footer class="text-center my-4">
+            <a href="/" class="btn btn-secondary">Back to Home</a>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

